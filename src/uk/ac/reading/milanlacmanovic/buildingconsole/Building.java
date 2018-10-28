@@ -73,6 +73,10 @@ public class Building {
 		occupant.movePerson();
 	}
 	
+	public boolean CheckPersonReachedDestination() {
+		return occupant.DestinationReached();
+	}
+	
 	public static void main(String[] args) {
 		Building b = new Building("11 11;0 0 4 4 2 4;6 0 10 10 6 5;0 6 4 10 2 6");
 		System.out.println(b.toString());

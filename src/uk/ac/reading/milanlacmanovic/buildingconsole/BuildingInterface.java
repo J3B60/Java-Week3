@@ -2,6 +2,7 @@ package uk.ac.reading.milanlacmanovic.buildingconsole;
 
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class BuildingInterface {
 	Scanner s;	//scanner used for input from user
@@ -33,7 +34,7 @@ public class BuildingInterface {
 		
 	    char ch = ' ';
 	    do {
-	       	System.out.print("(N)ew buidling, (D)raw, (M)ove, (I)nfo, e(X)it > ");
+	       	System.out.print("(N)ew buidling, (D)raw, (M)ove, (A)nimate, (I)nfo, e(X)it > ");
 	    	ch = s.next().charAt(0);
 	    	s.nextLine();
 	    	switch (ch) {
@@ -48,12 +49,16 @@ public class BuildingInterface {
 						break;
 	    		case 'D' :
 	    		case 'd' :
-	    			System.out.println(doDisplay());
-	    			break;
-	    		case 'M':
-	    		case 'm':
-	    			myBuilding.movePersoninBuilding();
-	    			break;
+		    			System.out.println(doDisplay());
+		    			break;
+	    		case 'M' :
+	    		case 'm' :
+		    			myBuilding.movePersoninBuilding();
+		    			break;
+	    		case 'A' :
+	    		case 'a' :
+		    			animate();
+		    			break;
 	     		case 'x' : 	ch = 'X';	// when X detected program ends
 	    				break;
 		 
@@ -113,6 +118,18 @@ public class BuildingInterface {
 	
 	public void showDoor(int x, int y) {
 		showIt(x, y, ' ');
+	}
+	
+	public void animate() {
+		while (!myBuilding.CheckPersonReachedDestination()) {
+			myBuilding.movePersoninBuilding();
+			System.out.println(doDisplay());
+			try {
+				TimeUnit.MILLISECONDS.sleep(250);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**

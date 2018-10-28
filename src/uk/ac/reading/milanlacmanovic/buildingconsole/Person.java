@@ -67,4 +67,12 @@ public class Person {
 		}
 		PersonPosition.translate(movex, movey);
 	}
+	public boolean DestinationReached() {
+		if (PersonPosition.getX() == DoorPoint.getX() && PersonPosition.getY() == DoorPoint.getY()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
