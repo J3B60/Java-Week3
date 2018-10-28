@@ -33,8 +33,7 @@ public class BuildingInterface {
 		
 	    char ch = ' ';
 	    do {
-	    	System.out.println(doDisplay());//TEST
-	       	System.out.print("(N)ew buidling (I)nfo, e(X)it > ");
+	       	System.out.print("(N)ew buidling, (D)raw, (I)nfo, e(X)it > ");
 	    	ch = s.next().charAt(0);
 	    	s.nextLine();
 	    	switch (ch) {
@@ -47,6 +46,10 @@ public class BuildingInterface {
 	    		case 'i' :
 						System.out.print(myBuilding.toString());
 						break;
+	    		case 'D' :
+	    		case 'd' :
+	    			System.out.println(doDisplay());
+	    			break;
 	     		case 'x' : 	ch = 'X';	// when X detected program ends
 	    				break;
 		 
@@ -57,19 +60,19 @@ public class BuildingInterface {
 	}
 	
 	public String doDisplay() {
-		BuildingDraw = new char[myBuilding.getBuildingx()][myBuilding.getBuildingy()]; //Setup char array to size of building
+		BuildingDraw = new char[myBuilding.getBuildingx() +2][myBuilding.getBuildingy() + 2]; //Switched x and y around//Setup char array to size of building
 		String temp = "";
 		showBuildingWall();
 		myBuilding.showBuilding(this);
-		for (int i = 0; i < BuildingDraw.length; i++) { //Output as Strings
-			for (int j = 0; j < BuildingDraw[i].length; j++) {
-				temp += String.valueOf(BuildingDraw[i][j]);
-			}
-			temp += "\n";
-		}//NOTE TO SELF: X and Y are flipped, because x,y to j,i not i,j (matricies notation) TODO FIX
-		//for (int k = 0; k < BuildingDraw.length; k++) { //TEST //OUTPUTS AS ARRAY View
-		//	System.out.println(Arrays.toString(BuildingDraw[k]));//Test
-		//}//TEST
+//		for (int i = 0; i < BuildingDraw.length; i++) { //Output as Strings
+//			for (int j = 0; j < BuildingDraw[i].length; j++) {
+//				temp += String.valueOf(BuildingDraw[i][j]);
+//			}
+//			temp += "\n";
+//		}//NOTE TO SELF: X and Y are flipped, because x,y to j,i not i,j (matricies notation) TODO FIX
+		for (int k = 0; k < BuildingDraw.length; k++) { //TEST //OUTPUTS AS ARRAY View
+			System.out.println(Arrays.toString(BuildingDraw[k]));//Test
+		}//TEST
 		return temp;
 	}
 	public void showBuildingWall() {
@@ -88,20 +91,24 @@ public class BuildingInterface {
 	}
 	
 	public void showIt(int x, int y, char ch) {
-		BuildingDraw[x][y] = ch;
+		BuildingDraw[x+1][y+1] = ch;//Y is top down//Swapped x and y to convert to matrix row first column next
 	}
 	
 	public void showWall(int xa, int ya, int  xb, int yb) {
 		if (ya == yb) {
-			for (int i = xa; xa <= xb; i++) {// Fill complete
-				showIt(xa, xb, '-');
-			}
+			for (int i = xa+1; i < xb; i++) {// Fill complete
+				showIt(i, ya, '|'); //+1 Added to offset coords by 1 so that rooms are displayed within the building boundaries, Building size should always be bigger than room coords, Y coord can be either ya or yb since equal
+			}//Swapped y and x coords around for test
 		}
 		if (xa == xb) {
-			for (int j = ya + 1; ya < yb; j++) {// To fill inbetween horizontal walls just as in task sheet diagram
-				showIt(ya, yb, '|');
+			for (int j = ya; j <= yb; j++) {// To fill inbetween horizontal walls just as in task sheet diagram
+				showIt(xa, j, '-'); //Can either be xa or xb since equal 
 			}
 		}
+	}
+	
+	public void showDoor(int x, int y) {
+		showIt(x, y, ' ');
 	}
 	
 	/**

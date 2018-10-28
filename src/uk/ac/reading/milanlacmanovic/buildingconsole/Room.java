@@ -77,6 +77,15 @@ public class Room{
 		Point RandomPoint = new Point(x,y);
 		return RandomPoint;
 	}
+	
+	public void showRoom(BuildingInterface bi) {
+		bi.showWall(roomCoord[0], roomCoord[3], roomCoord[2], roomCoord[3]);
+		bi.showWall(roomCoord[0], roomCoord[1], roomCoord[2], roomCoord[1]);
+		bi.showWall(roomCoord[0], roomCoord[1], roomCoord[0], roomCoord[3]);
+		bi.showWall(roomCoord[2], roomCoord[1], roomCoord[2], roomCoord[3]);
+		bi.showDoor(roomCoord[4], roomCoord[5]);
+	}
+	
 	/**
 	 * Used for testing Room class
 	 * @param args

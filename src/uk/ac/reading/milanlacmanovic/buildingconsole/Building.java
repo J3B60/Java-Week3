@@ -65,6 +65,7 @@ public class Building {
 	
 	public void showBuilding (BuildingInterface bi) {
 		occupant.showPerson(bi);
+		for (Room r: allRooms) r.showRoom(bi);
 	}
 	
 	public static void main(String[] args) {
