@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public class Person {
 	private Point PersonPosition;
+	private Point DoorPoint;
 	Person(int x, int y){
 		PersonPosition = new Point(x,y); //Initialise the Point Object
 	}
@@ -34,5 +35,36 @@ public class Person {
 	
 	public void showPerson(BuildingInterface bi) {
 		bi.showIt((int)PersonPosition.getX(), (int)PersonPosition.getY(), 'P'); //(int) P.getX() is replaceable with getPersonPositionX() etc
+	}
+	
+	public void PointSet(Point p) {
+		DoorPoint = p;
+	}
+	public void movePerson() {
+		int dx = 0, dy = 0;
+		int movex = 0, movey =0;
+		if (PersonPosition != DoorPoint) {
+			dx = (int) PersonPosition.getX() - (int) DoorPoint.getX();
+			dy = (int) PersonPosition.getY() - (int) DoorPoint.getY();
+		}
+		if (dx > 0) {
+			movex = -1;
+		}
+		else if (dx < 0){
+			movex = 1;
+		}
+		else {
+			movex = 0;
+		}
+		if (dy > 0) {
+			movey = -1;
+		}
+		else if (dy < 0){
+			movey = 1;
+		}
+		else {
+			movey = 0;
+		}
+		PersonPosition.translate(movex, movey);
 	}
 }

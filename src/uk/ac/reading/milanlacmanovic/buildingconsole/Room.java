@@ -85,7 +85,10 @@ public class Room{
 		bi.showWall(roomCoord[2], roomCoord[1], roomCoord[2], roomCoord[3]);
 		bi.showDoor(roomCoord[4], roomCoord[5]);
 	}
-	
+	public Point getDoorPoint() {
+		Point temp = new Point(roomCoord[4], roomCoord[5]);
+		return temp;
+	}
 	/**
 	 * Used for testing Room class
 	 * @param args

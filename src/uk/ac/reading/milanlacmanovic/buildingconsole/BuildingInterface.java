@@ -33,7 +33,7 @@ public class BuildingInterface {
 		
 	    char ch = ' ';
 	    do {
-	       	System.out.print("(N)ew buidling, (D)raw, (I)nfo, e(X)it > ");
+	       	System.out.print("(N)ew buidling, (D)raw, (M)ove, (I)nfo, e(X)it > ");
 	    	ch = s.next().charAt(0);
 	    	s.nextLine();
 	    	switch (ch) {
@@ -49,6 +49,10 @@ public class BuildingInterface {
 	    		case 'D' :
 	    		case 'd' :
 	    			System.out.println(doDisplay());
+	    			break;
+	    		case 'M':
+	    		case 'm':
+	    			myBuilding.movePersoninBuilding();
 	    			break;
 	     		case 'x' : 	ch = 'X';	// when X detected program ends
 	    				break;

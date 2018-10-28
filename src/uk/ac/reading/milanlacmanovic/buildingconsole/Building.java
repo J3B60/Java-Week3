@@ -19,6 +19,7 @@ public class Building {
 		//System.out.println(allRooms);//Test
 		randGen = new Random();
 		occupant = new Person(allRooms.get(randRoom).getRandom(randGen));
+		occupant.PointSet(allRooms.get(PersonInRoom() -1).getDoorPoint());
 	}
 	
 	public int PersonInRoom() { /////###Can be changed to have a point argument
@@ -64,8 +65,12 @@ public class Building {
 	}
 	
 	public void showBuilding (BuildingInterface bi) {
-		occupant.showPerson(bi);
 		for (Room r: allRooms) r.showRoom(bi);
+		occupant.showPerson(bi);
+	}
+	
+	public void movePersoninBuilding() {
+		occupant.movePerson();
 	}
 	
 	public static void main(String[] args) {
