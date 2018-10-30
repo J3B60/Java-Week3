@@ -7,6 +7,7 @@ public class Person {
 	private Point PersonPosition;
 	private ArrayList<Point> PointPath;
 	private int index=0;
+	private Boolean PathisCompleted = false;
 	
 	Person(int x, int y){
 		PersonPosition = new Point(x,y); //Initialise the Point Object
@@ -50,32 +51,37 @@ public class Person {
 	public void movePerson(BuildingInterface bi) {
 		int dx = 0, dy = 0;
 		int movex = 0, movey =0;
-		if (PersonPosition != PointPath.get(index)) {
-			dx = (int) PersonPosition.getX() - (int) PointPath.get(index).getX();
-			dy = (int) PersonPosition.getY() - (int) PointPath.get(index).getY();
-		}
-		if (dx > 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()][(int) PersonPosition.getY()+1] == ' ') {
-			movex = -1;
-		}
-		else if (dx < 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+2][(int) PersonPosition.getY()+1] == ' '){
-			movex = 1;
+		if(index < PointPath.size()) {
+			if (PersonPosition != PointPath.get(index)) {
+				dx = (int) PersonPosition.getX() - (int) PointPath.get(index).getX();
+				dy = (int) PersonPosition.getY() - (int) PointPath.get(index).getY();
+			}
+			if (dx > 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()][(int) PersonPosition.getY()+1] == ' ') {
+				movex = -1;
+			}
+			else if (dx < 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+2][(int) PersonPosition.getY()+1] == ' '){
+				movex = 1;
+			}
+			else {
+				movex = 0;
+			}
+			if (dy > 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+1][(int) PersonPosition.getY()] == ' ') {
+				movey = -1;
+			}
+			else if (dy < 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+1][(int) PersonPosition.getY()+2] == ' '){
+				movey = 1;
+			}
+			else {
+				movey = 0;
+			}
+			PersonPosition.translate(movex, movey);
 		}
 		else {
-			movex = 0;
+			PathisCompleted = true;
 		}
-		if (dy > 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+1][(int) PersonPosition.getY()] == ' ') {
-			movey = -1;
-		}
-		else if (dy < 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+1][(int) PersonPosition.getY()+2] == ' '){
-			movey = 1;
-		}
-		else {
-			movey = 0;
-		}
-		PersonPosition.translate(movex, movey);
 	}
 	public boolean DestinationReached() {
-		if (PointPath.size() > index) { //////TODO Need to fix out of bounds with PointPath arraylist and index
+		if (index < PointPath.size()) { //////TODO Need to fix out of bounds with PointPath arraylist and index
 			if (PersonPosition.getX() == PointPath.get(index).getX() && PersonPosition.getY() == PointPath.get(index).getY()) {
 				if (index < PointPath.size()) {
 					index++;
@@ -91,14 +97,14 @@ public class Person {
 		}
 	}
 	
-	public boolean CompletePath() {
-		if (PointPath.size() == index) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+//	public boolean CompletePath() {
+//		if (PointPath.size() == index) {
+//			return true;
+//		}
+//		else {
+//			return false;
+//		}
+//	}
 	
 //	public void CheckDoorType(BuildingInterface bi) {
 //		if (bi.getBuildingDraw()[(int)PointPath.get(index).getX() + 1 ][(int)PointPath.get(index).getY()] == '-' && bi.getBuildingDraw()[(int)PointPath.get(index).getX() - 1 ][(int)PointPath.get(index).getY()] == '-') {
@@ -116,4 +122,7 @@ public class Person {
 		PointPath.add(p);
 	}
 	
+	public Boolean getPathisCompleted() {
+		return PathisCompleted;
+	}
 }

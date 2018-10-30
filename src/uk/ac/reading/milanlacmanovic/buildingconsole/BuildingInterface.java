@@ -85,7 +85,7 @@ public class BuildingInterface {
 	    			break;
 	    		case 'L':
 	    		case 'l':
-	    				LoadFile();
+	    				myBuilding = new Building(LoadFile());
 	    			break;
 	     		case 'x' : 	ch = 'X';	// when X detected program ends
 	    				break;
@@ -181,20 +181,34 @@ public class BuildingInterface {
 		}
 		try (PrintWriter out = new PrintWriter(selectedFile)) {
 				out.println(myBuilding.getOriginalInput());
+				out.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public String LoadFile() {
 		int option;
+		File selectedFile;
 		JFileChooser jfc = new JFileChooser();
 		option = jfc.showOpenDialog(null);
 		if (option == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
+			selectedFile = jfc.getSelectedFile();
 		}
-		String temp = "";///////TODO
+		else {
+			selectedFile = null;
+		}
+		String temp = "";
+		try {
+			Scanner sc = new Scanner(selectedFile);
+			while (sc.hasNextLine()) {
+				temp += sc.nextLine();
+			}
+			sc.close();
+//			System.out.println(temp);//TEST
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		return temp;
 	}
 	

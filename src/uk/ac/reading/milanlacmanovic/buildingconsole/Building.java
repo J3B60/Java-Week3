@@ -61,7 +61,7 @@ public class Building {
 		temp += "Building size " + xSize + "," + ySize + "\n";
 		//temp += "Room from " + allRooms.toString();//Test
 		for (Room r: allRooms) temp = temp + "Room from " + r.toStringRoomX() + " to " + r.toStringRoomY() + " door at " + r.toStringRoomDoor() + "\n";
-		temp += "Occupant is at " + PersonInRoom() + "\n";
+		temp += "Occupant is in Room: " + PersonInRoom() + "\n";
 		return temp;
 	}
 	
@@ -108,7 +108,7 @@ public class Building {
 	}
 	
 	public boolean PersonCompletePath() {
-		return occupant.CompletePath();
+		return occupant.getPathisCompleted();
 	}
 	
 	public String getOriginalInput() {
