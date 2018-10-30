@@ -32,6 +32,7 @@ public class BuildingInterface {
 	 	* constructor for BuildingInterface
 	 	* sets up scanner used for input and the arena
 	 	* then has main loop allowing user to enter commands
+	 	* Commands are N, D, M, A, P, U, S, L, I, X
 	 */
 	public BuildingInterface() {
 		  s = new Scanner(System.in);	// set up scanner for user input
@@ -66,7 +67,9 @@ public class BuildingInterface {
 	    		case 'A' :
 	    		case 'a' :
 	    				doDisplay();//Same reason as M
-		    			animate();
+		    			if (!myBuilding.PersonCompletePath()) {
+		    				animate();
+		    			}
 		    			break;
 	    		case 'P' :
 	    		case 'p' :
@@ -96,20 +99,26 @@ public class BuildingInterface {
 	   s.close();					// close scanner
 	}
 	
+	/**
+	 * 
+	 * @return String containing
+	 */
+	
 	public String doDisplay() {
 		BuildingDraw = new char[myBuilding.getBuildingx() +2][myBuilding.getBuildingy() + 2]; //Switched x and y around//Setup char array to size of building
 		String temp = "";
 		showBuildingWall();
 		myBuilding.showBuilding(this);
-//		for (int i = 0; i < BuildingDraw.length; i++) { //Output as Strings
-//			for (int j = 0; j < BuildingDraw[i].length; j++) {
-//				temp += String.valueOf(BuildingDraw[i][j]);
-//			}
-//			temp += "\n";
-//		}//NOTE TO SELF: X and Y are flipped, because x,y to j,i not i,j (matricies notation) TODO FIX
-		for (int k = 0; k < BuildingDraw.length; k++) { //TEST //OUTPUTS AS ARRAY View
-			System.out.println(Arrays.toString(BuildingDraw[k]));//Test
-		}//TEST
+		for (int i = 0; i < BuildingDraw.length; i++) { //Output as Strings
+			for (int j = 0; j < BuildingDraw[i].length; j++) {
+				temp += String.valueOf(BuildingDraw[i][j]);
+			}
+			temp += "\n";
+		}
+			//NOTE TO SELF: X and Y are flipped, because x,y to j,i not i,j (matricies notation) TODO FIX
+//		for (int k = 0; k < BuildingDraw.length; k++) { //TEST //OUTPUTS AS ARRAY View
+//			System.out.println(Arrays.toString(BuildingDraw[k]));//Test
+//		}//TEST
 		return temp;
 	}
 	public void showBuildingWall() {

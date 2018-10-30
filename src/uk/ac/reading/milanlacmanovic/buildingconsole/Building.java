@@ -108,7 +108,7 @@ public class Building {
 	}
 	
 	public boolean PersonCompletePath() {
-		return occupant.getPathisCompleted();
+		return occupant.CompletePath();//Different Options working on TODO
 	}
 	
 	public String getOriginalInput() {

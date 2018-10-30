@@ -97,14 +97,14 @@ public class Person {
 		}
 	}
 	
-//	public boolean CompletePath() {
-//		if (PointPath.size() == index) {
-//			return true;
-//		}
-//		else {
-//			return false;
-//		}
-//	}
+	public boolean CompletePath() {
+		if (PointPath.size() == index) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 //	public void CheckDoorType(BuildingInterface bi) {
 //		if (bi.getBuildingDraw()[(int)PointPath.get(index).getX() + 1 ][(int)PointPath.get(index).getY()] == '-' && bi.getBuildingDraw()[(int)PointPath.get(index).getX() - 1 ][(int)PointPath.get(index).getY()] == '-') {
