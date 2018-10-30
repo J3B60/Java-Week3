@@ -1,8 +1,15 @@
 package uk.ac.reading.milanlacmanovic.buildingconsole;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.Arrays;
+import javax.swing.JFileChooser;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
 
 public class BuildingInterface {
 	Scanner s;	//scanner used for input from user
@@ -34,7 +41,7 @@ public class BuildingInterface {
 		
 	    char ch = ' ';
 	    do {
-	       	System.out.print("(N)ew buidling, (D)raw, (M)ove, (A)nimate, (I)nfo, e(X)it > ");
+	       	System.out.print("(N)ew buidling, (D)raw, (M)ove, (A)nimate, (P)ath, (U)ser Input New Building, (S)ave, (L)oad, (I)nfo, e(X)it > ");
 	    	ch = s.next().charAt(0);
 	    	s.nextLine();
 	    	switch (ch) {
@@ -53,12 +60,33 @@ public class BuildingInterface {
 		    			break;
 	    		case 'M' :
 	    		case 'm' :
-		    			myBuilding.movePersoninBuilding();
+	    				doDisplay(); //Cheap way to get the map out ready for person to use Without Feedback
+		    			myBuilding.movePersoninBuilding(this);
 		    			break;
 	    		case 'A' :
 	    		case 'a' :
+	    				doDisplay();//Same reason as M
 		    			animate();
 		    			break;
+	    		case 'P' :
+	    		case 'p' :
+	    				doDisplay(); //Same reason as M
+	    				while(!myBuilding.PersonCompletePath()) {
+	    					animate();
+	    				}
+	    				break;
+	    		case 'U' :
+	    		case 'u' :
+	    				myBuilding = new Building(UserInputBuilding());
+	    			break;
+	    		case 'S':
+	    		case 's':
+	    				SaveFile();
+	    			break;
+	    		case 'L':
+	    		case 'l':
+	    				LoadFile();
+	    			break;
 	     		case 'x' : 	ch = 'X';	// when X detected program ends
 	    				break;
 		 
@@ -91,7 +119,7 @@ public class BuildingInterface {
 			for (int j = 1; j < BuildingDraw[i].length - 1; j++) {
 				BuildingDraw[i][j] = ' ';
 			}
-			BuildingDraw[i][BuildingDraw.length -1] = '#';
+			BuildingDraw[i][BuildingDraw[0].length -1] = '#';
 		}
 		Arrays.fill(BuildingDraw[BuildingDraw.length - 1], '#');
 //for (int k = 0; k < BuildingDraw.length; k++) { //TEST
@@ -122,7 +150,7 @@ public class BuildingInterface {
 	
 	public void animate() {
 		while (!myBuilding.CheckPersonReachedDestination()) {
-			myBuilding.movePersoninBuilding();
+			myBuilding.movePersoninBuilding(this);
 			System.out.println(doDisplay());
 			try {
 				TimeUnit.MILLISECONDS.sleep(250);
@@ -130,6 +158,44 @@ public class BuildingInterface {
 				e.printStackTrace();
 			}
 		}
+	}
+	public char[][] getBuildingDraw(){
+		return BuildingDraw;
+	}
+	
+	public String UserInputBuilding() {
+		String userIn = JOptionPane.showInputDialog(null, "Enter Building using format [Bx By; R1x1 R1y1 R1x2 R1y2 R1Dx R1Dy; ...]");
+		return userIn;
+	}
+	
+	public void SaveFile() {
+		int option;
+		File selectedFile;
+		JFileChooser jfc = new JFileChooser();
+		option = jfc.showSaveDialog(null);
+		if (option == JFileChooser.APPROVE_OPTION) {
+			selectedFile = jfc.getSelectedFile();
+		}
+		else {
+			selectedFile = null; //##Bad error handling
+		}
+		try (PrintWriter out = new PrintWriter(selectedFile)) {
+				out.println(myBuilding.getOriginalInput());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String LoadFile() {
+		int option;
+		JFileChooser jfc = new JFileChooser();
+		option = jfc.showOpenDialog(null);
+		if (option == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+		}
+		String temp = "";///////TODO
+		return temp;
 	}
 	
 	/**

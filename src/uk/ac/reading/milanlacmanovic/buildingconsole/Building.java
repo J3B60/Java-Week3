@@ -3,6 +3,7 @@ package uk.ac.reading.milanlacmanovic.buildingconsole;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Arrays;
+import java.awt.Point;
 
 public class Building {
 	private int xSize = 10;				// size of building in x
@@ -11,15 +12,18 @@ public class Building {
 	private Random randGen;				//Random Generator using Random obj
 	private int randRoom;
 	private Person occupant;
+	private String OriginalInput;
 	
 	Building(String bS){
 		allRooms = new ArrayList<Room>();
 		allRooms.clear();
+		OriginalInput = bS;
 		setBuilding(bS);
 		//System.out.println(allRooms);//Test
 		randGen = new Random();
 		occupant = new Person(allRooms.get(randRoom).getRandom(randGen));
-		occupant.PointSet(allRooms.get(PersonInRoom() -1).getDoorPoint());
+		occupant.PointSet(allRooms.get(PersonInRoom()-1).getDoorPoint());
+		nextPathPoint();
 	}
 	
 	public int PersonInRoom() { /////###Can be changed to have a point argument
@@ -37,6 +41,7 @@ public class Building {
 		xSize = SS.getIntegers()[0]; //gets and assign the integer x building size
 		ySize = SS.getIntegers()[1]; //gets and assign the integer y building size
 		//System.out.println(ySize); //Test
+		allRooms.clear();
 		for (int i = 1; i < S.getStrings().length; i++){
 			allRooms.add(new Room(S.getStrings()[i]));
 		}
@@ -69,12 +74,45 @@ public class Building {
 		occupant.showPerson(bi);
 	}
 	
-	public void movePersoninBuilding() {
-		occupant.movePerson();
+	public void movePersoninBuilding(BuildingInterface bi) {
+		occupant.movePerson(bi);
 	}
 	
 	public boolean CheckPersonReachedDestination() {
 		return occupant.DestinationReached();
+	}
+	
+	public void nextPathPoint() {
+		Point temp = new Point(0,0);
+//		temp.setLocation((int)allRooms.get(0).getDoorPoint().getX()+1, (int)allRooms.get(1).getDoorPoint().getY());
+//		occupant.addPointPath(temp);
+//		temp.setLocation((int)allRooms.get(1).getDoorPoint().getX(), (int)allRooms.get(1).getDoorPoint().getY()-1);
+//		occupant.addPointPath(temp);
+		occupant.addPointPath(allRooms.get(1).getDoorOutsidePoint(allRooms.get(1).getDoorPositionRelativetoRoom()));
+		occupant.addPointPath(allRooms.get(1).getDoorInsidePoint(allRooms.get(1).getDoorPositionRelativetoRoom()));
+		occupant.addPointPath(allRooms.get(1).getRandom(randGen));
+		occupant.addPointPath(allRooms.get(1).getDoorInsidePoint(allRooms.get(1).getDoorPositionRelativetoRoom()));
+		occupant.addPointPath(allRooms.get(1).getDoorOutsidePoint(allRooms.get(1).getDoorPositionRelativetoRoom()));
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		occupant.addPointPath(allRooms.get(2).getDoorOutsidePoint(allRooms.get(2).getDoorPositionRelativetoRoom()));
+		occupant.addPointPath(allRooms.get(2).getDoorInsidePoint(allRooms.get(2).getDoorPositionRelativetoRoom()));
+		occupant.addPointPath(allRooms.get(2).getRandom(randGen));
+//		temp.setLocation((int)allRooms.get(1).getDoorPoint().getX(), (int)allRooms.get(1).getDoorPoint().getY()+1);
+//		occupant.addPointPath(temp);
+//		temp.setLocation((int)allRooms.get(1).getDoorPoint().getX(), (int)allRooms.get(1).getDoorPoint().getY()-1);
+//		occupant.addPointPath(temp);
+//		temp.setLocation((int)allRooms.get(2).getDoorPoint().getX()-1, (int)allRooms.get(1).getDoorPoint().getY());
+//		occupant.addPointPath(temp);
+//		occupant.addPointPath(allRooms.get(2).getDoorPoint());
+//		occupant.addPointPath(allRooms.get(2).getRandom(randGen));
+	}
+	
+	public boolean PersonCompletePath() {
+		return occupant.CompletePath();
+	}
+	
+	public String getOriginalInput() {
+		return OriginalInput;
 	}
 	
 	public static void main(String[] args) {

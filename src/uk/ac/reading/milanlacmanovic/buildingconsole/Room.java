@@ -89,6 +89,69 @@ public class Room{
 		Point temp = new Point(roomCoord[4], roomCoord[5]);
 		return temp;
 	}
+	public int getDoorPositionRelativetoRoom() {
+		if (roomCoord[4] == roomCoord[0]) {
+			return 1;//west side
+		}
+		if (roomCoord[4] == roomCoord[2]) {
+			return 2;//East Side
+		}
+		if (roomCoord[5] == roomCoord[1]) {
+			return 3;//South Side
+		}
+		if (roomCoord[5] == roomCoord[3]) {
+			return 4;//North Side
+		}
+		else {
+			return 0;
+		}
+	}
+	public Point getDoorInsidePoint(int DoorRelativePositiontoRoom) {
+		Point temp;
+		if (DoorRelativePositiontoRoom == 1) {
+			temp = new Point((int)getDoorPoint().getX()+1, (int)getDoorPoint().getY());
+			return temp;
+		}
+		else if (DoorRelativePositiontoRoom == 2) {
+			temp = new Point((int)getDoorPoint().getX()-1, (int)getDoorPoint().getY());
+			return temp;
+		}
+		else if (DoorRelativePositiontoRoom == 3) {
+			temp = new Point((int)getDoorPoint().getX(), (int)getDoorPoint().getY()+1);
+			return temp;
+		}
+		else if (DoorRelativePositiontoRoom == 2) {
+			temp = new Point((int)getDoorPoint().getX(), (int)getDoorPoint().getY()-1);
+			return temp;
+		}
+		else {
+			temp = getDoorPoint();//ERROR, Better than nothing :( not good error handling but good enough
+			return temp;
+		}
+	}
+	public Point getDoorOutsidePoint(int DoorRelativePositiontoRoom) {
+		Point temp;
+		if (DoorRelativePositiontoRoom == 1) {
+			temp = new Point((int)getDoorPoint().getX()-1, (int)getDoorPoint().getY());
+			return temp;
+		}
+		else if (DoorRelativePositiontoRoom == 2) {
+			temp = new Point((int)getDoorPoint().getX()+1, (int)getDoorPoint().getY());
+			return temp;
+		}
+		else if (DoorRelativePositiontoRoom == 3) {
+			temp = new Point((int)getDoorPoint().getX(), (int)getDoorPoint().getY()-1);
+			return temp;
+		}
+		else if (DoorRelativePositiontoRoom == 2) {
+			temp = new Point((int)getDoorPoint().getX(), (int)getDoorPoint().getY()+1);
+			return temp;
+		}
+		else {
+			temp = getDoorPoint();//ERROR, Better than nothing :( not good error handling but good enough
+			return temp;
+		}
+	}
 	/**
 	 * Used for testing Room class
 	 * @param args

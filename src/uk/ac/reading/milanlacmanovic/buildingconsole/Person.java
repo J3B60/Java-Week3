@@ -1,12 +1,17 @@
 package uk.ac.reading.milanlacmanovic.buildingconsole;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Person {
 	private Point PersonPosition;
-	private Point DoorPoint;
+	private ArrayList<Point> PointPath;
+	private int index=0;
+	
 	Person(int x, int y){
 		PersonPosition = new Point(x,y); //Initialise the Point Object
+//		PointPath = new ArrayList<Point>();
+//		PointPath.clear();
 	}
 	
 	Person(Point random) {
@@ -38,28 +43,30 @@ public class Person {
 	}
 	
 	public void PointSet(Point p) {
-		DoorPoint = p;
+		PointPath = new ArrayList<Point>();
+		PointPath.clear();
+		PointPath.add(p);
 	}
-	public void movePerson() {
+	public void movePerson(BuildingInterface bi) {
 		int dx = 0, dy = 0;
 		int movex = 0, movey =0;
-		if (PersonPosition != DoorPoint) {
-			dx = (int) PersonPosition.getX() - (int) DoorPoint.getX();
-			dy = (int) PersonPosition.getY() - (int) DoorPoint.getY();
+		if (PersonPosition != PointPath.get(index)) {
+			dx = (int) PersonPosition.getX() - (int) PointPath.get(index).getX();
+			dy = (int) PersonPosition.getY() - (int) PointPath.get(index).getY();
 		}
-		if (dx > 0) {
+		if (dx > 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()][(int) PersonPosition.getY()+1] == ' ') {
 			movex = -1;
 		}
-		else if (dx < 0){
+		else if (dx < 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+2][(int) PersonPosition.getY()+1] == ' '){
 			movex = 1;
 		}
 		else {
 			movex = 0;
 		}
-		if (dy > 0) {
+		if (dy > 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+1][(int) PersonPosition.getY()] == ' ') {
 			movey = -1;
 		}
-		else if (dy < 0){
+		else if (dy < 0 && bi.getBuildingDraw()[(int) PersonPosition.getX()+1][(int) PersonPosition.getY()+2] == ' '){
 			movey = 1;
 		}
 		else {
@@ -68,11 +75,45 @@ public class Person {
 		PersonPosition.translate(movex, movey);
 	}
 	public boolean DestinationReached() {
-		if (PersonPosition.getX() == DoorPoint.getX() && PersonPosition.getY() == DoorPoint.getY()) {
+		if (PointPath.size() > index) { //////TODO Need to fix out of bounds with PointPath arraylist and index
+			if (PersonPosition.getX() == PointPath.get(index).getX() && PersonPosition.getY() == PointPath.get(index).getY()) {
+				if (index < PointPath.size()) {
+					index++;
+				}
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean CompletePath() {
+		if (PointPath.size() == index) {
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
+	
+//	public void CheckDoorType(BuildingInterface bi) {
+//		if (bi.getBuildingDraw()[(int)PointPath.get(index).getX() + 1 ][(int)PointPath.get(index).getY()] == '-' && bi.getBuildingDraw()[(int)PointPath.get(index).getX() - 1 ][(int)PointPath.get(index).getY()] == '-') {
+//			//This is a horizontal Door
+//		}
+//		else if (bi.getBuildingDraw()[(int)PointPath.get(index).getX()][(int)PointPath.get(index).getY()+1] == '|' && bi.getBuildingDraw()[(int)PointPath.get(index).getX()][(int)PointPath.get(index).getY()-1] == '|') {
+//			//This is a vertical Door
+//		}
+//		else{
+//			//nothing, point is probably random
+//		}
+//	}
+	
+	public void addPointPath(Point p) {
+		PointPath.add(p);
+	}
+	
 }
