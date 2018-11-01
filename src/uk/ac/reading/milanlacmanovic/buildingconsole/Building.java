@@ -36,7 +36,7 @@ public class Building {
 		//System.out.println(allRooms);//Test
 		randGen = new Random(); //Random generator
 		occupant = new Person(allRooms.get(randRoom).getRandom(randGen)); // Occupant start at random point
-		occupant.PointSet(allRooms.get(PersonInRoom()-1).getDoorPoint()); //Set the Persons first point
+		occupant.PointSet(allRooms.get(PersonInRoom()-1).getDoorInsidePoint(allRooms.get(PersonInRoom()-1).getDoorPositionRelativetoRoom())); //Set the Persons first point
 		nextPathPoint(); //Add the list of Point paths for person to follow next
 	}
 	
@@ -152,6 +152,8 @@ public class Building {
 //		occupant.addPointPath(temp);
 //		temp.setLocation((int)allRooms.get(1).getDoorPoint().getX(), (int)allRooms.get(1).getDoorPoint().getY()-1);
 //		occupant.addPointPath(temp);
+		occupant.addPointPath(allRooms.get(PersonInRoom()-1).getDoorOutsidePoint(allRooms.get(PersonInRoom()-1).getDoorPositionRelativetoRoom()));
+		/////////////////////////////////////////////////////////////////////////////
 		occupant.addPointPath(allRooms.get(1).getDoorOutsidePoint(allRooms.get(1).getDoorPositionRelativetoRoom()));
 		occupant.addPointPath(allRooms.get(1).getDoorInsidePoint(allRooms.get(1).getDoorPositionRelativetoRoom()));
 		occupant.addPointPath(allRooms.get(1).getRandom(randGen));
